@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Absen - SMA Negeri 1 Bengkulu Selatan</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #333;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 2px solid #ffffff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #6a11cb;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #6a11cb;
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-container button {
+            background-color: #6a11cb;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #2575fc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Daftar Absen - SMA Negeri 1 Bengkulu Selatan</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="beranda.html">Beranda</a></li>
+            <li><a href="daftar-absen.html">Daftar Absen</a></li>
+            <li><a href="tentang-kami.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Kelola Daftar Absen</h2>
+        <div class="form-container">
+            <input type="text" id="namaSiswa" placeholder="Nama Siswa">
+            <select id="kelas">
+                <option value="IPA">IPA</option>
+                <option value="IPS">IPS</option>
+            </select>
+            <button onclick="tambahSiswa()">Tambah Siswa</button>
+        </div>
+        <div class="form-container">
+            <select id="siswa">
+                <!-- Siswa akan ditambahkan di sini -->
+            </select>
+            <select id="keterangan">
+                <option value="Hadir">Hadir</option>
+                <option value="Tidak Hadir">Tidak Hadir</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+                <option value="Tanpa Keterangan">Tanpa Keterangan</option>
+            </select>
+            <button onclick="tambahAbsen()">Tambah Absen</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Waktu</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody id="absenTable">
+                <!-- Data absen akan ditambahkan di sini -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 SMA Negeri 1 Bengkulu Selatan. All rights reserved.</p>
+    </footer>
+    <script>
+        let siswaList = [];
+
+        function tambahSiswa() {
+            const namaSiswa = document.getElementById('namaSiswa').value.trim();
+            const kelas = document.getElementById('kelas').value;
+            if (namaSiswa) {
+                const id = siswaList.length + 1;
+                siswaList.push({ id, nama: namaSiswa, kelas });
+
+                const siswaSelect = document.getElementById('siswa');
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = `${namaSiswa} - ${kelas}`;
+                siswaSelect.appendChild(option);
+
+                document.getElementById('namaSiswa').value = '';
+                alert('Siswa berhasil ditambahkan!');
+            } else {
+                alert('Nama siswa tidak boleh kosong!');
+            }
+        }
+
+        function tambahAbsen() {
+            const siswaSelect = document.getElementById('siswa');
+            const keteranganSelect = document.getElementById('keterangan');
+            const tableBody = document.getElementById('absenTable');
+
+            const siswaText = siswaSelect.options[siswaSelect.selectedIndex].text;
+            const siswaId = siswaSelect.value;
+            const keterangan = keteranganSelect.value;
+            const waktu = new Date().toLocaleString();
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${siswaId}</td>
+                <td>${siswaText.split(' - ')[0]}</td>
+                <td>${siswaText.split(' - ')[1]}</td>
+                <td>${waktu}</td>
+                <td>${keterangan}</td>
+            `;
+            tableBody.appendChild(row);
+
+            alert('Absen berhasil ditambahkan!');
+        }
+    </script>
+</body>
+</html>
